@@ -7,8 +7,8 @@
 ## Phase board
 | Phase | Title | Status |
 |---|---|---|
-| 0 | Scaffold, contracts, Make, health, docs layout | **in progress** |
-| 1 | Geometry + deterministic engine | blocked on G0? no — can start after P0 gate |
+| 0 | Scaffold, contracts, Make, health, docs layout | **code gate passed** (G0 pending key) |
+| 1 | Geometry + deterministic engine | ready to start |
 | 2 | Meta client + perception + cassettes | needs key for live; cassettes after S2 |
 | 3 | Compiler + protocol gold IR | after contracts stable |
 | 4 | Session runner + REST/WS + export | after engine + perception stubs |
@@ -22,7 +22,7 @@
 - [x] FastAPI `/health`
 - [x] Frontend shell
 - [x] `make setup test lint schemas`
-- [ ] GitHub `origin` pushed
+- [x] GitHub `origin` pushed
 
 ## Notes
 - Planning docs existed at repo root; they now live in `docs/` to match `AGENTS.md`.
