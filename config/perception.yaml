@@ -1,0 +1,11 @@
+move_ratio: 0.02
+still_ratio: 0.005
+settle_ms: 700
+heartbeat_ms: 6000
+max_parallel_sam: 6
+capture_width: 1280
+capture_height: 720
+jpeg_quality: 0.8
+crop_pad: 0.15
+crop_max_px: 384
+max_crops_per_spark: 6

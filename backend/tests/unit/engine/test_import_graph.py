@@ -1,0 +1,30 @@
+from __future__ import annotations
+
+import ast
+from pathlib import Path
+
+ENGINE_DIR = Path(__file__).resolve().parents[3] / "benchguard" / "engine"
+FORBIDDEN_PREFIXES = (
+    "benchguard.perception",
+    "benchguard.meta_client",
+    "benchguard.compiler",
+    "benchguard.api",
+    "benchguard.runner",
+    "benchguard.export",
+)
+
+
+def test_engine_does_not_import_impure_packages() -> None:
+    violations: list[str] = []
+    for path in ENGINE_DIR.rglob("*.py"):
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            modules: list[str] = []
+            if isinstance(node, ast.Import):
+                modules.extend(alias.name for alias in node.names)
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                modules.append(node.module)
+            for mod in modules:
+                if any(mod == p or mod.startswith(p + ".") for p in FORBIDDEN_PREFIXES):
+                    violations.append(f"{path.name}: {mod}")
+    assert violations == []

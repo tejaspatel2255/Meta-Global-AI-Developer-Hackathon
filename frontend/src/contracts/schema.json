@@ -1,0 +1,2193 @@
+{
+  "Procedure": {
+    "$defs": {
+      "Absent": {
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "$ref": "#/$defs/Role",
+            "default": "goal"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Note"
+          },
+          "kind": {
+            "const": "absent",
+            "default": "absent",
+            "title": "Kind",
+            "type": "string"
+          },
+          "object_id": {
+            "title": "Object Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "object_id"
+        ],
+        "title": "Absent",
+        "type": "object"
+      },
+      "AttrCategory": {
+        "enum": [
+          "orientation",
+          "state",
+          "identity"
+        ],
+        "title": "AttrCategory",
+        "type": "string"
+      },
+      "Attribute": {
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "$ref": "#/$defs/Role",
+            "default": "goal"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Note"
+          },
+          "kind": {
+            "const": "attribute",
+            "default": "attribute",
+            "title": "Kind",
+            "type": "string"
+          },
+          "object_id": {
+            "title": "Object Id",
+            "type": "string"
+          },
+          "attribute": {
+            "title": "Attribute",
+            "type": "string"
+          },
+          "question": {
+            "title": "Question",
+            "type": "string"
+          },
+          "allowed": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Allowed",
+            "type": "array"
+          },
+          "pending": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Pending",
+            "type": "array"
+          },
+          "category": {
+            "$ref": "#/$defs/AttrCategory"
+          },
+          "gate": {
+            "anyOf": [
+              {
+                "discriminator": {
+                  "mapping": {
+                    "absent": "#/$defs/Absent",
+                    "order_along": "#/$defs/OrderAlong",
+                    "present": "#/$defs/Present",
+                    "relation": "#/$defs/Relation"
+                  },
+                  "propertyName": "kind"
+                },
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/Present"
+                  },
+                  {
+                    "$ref": "#/$defs/Absent"
+                  },
+                  {
+                    "$ref": "#/$defs/Relation"
+                  },
+                  {
+                    "$ref": "#/$defs/OrderAlong"
+                  }
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Gate"
+          }
+        },
+        "required": [
+          "object_id",
+          "attribute",
+          "question",
+          "allowed",
+          "category"
+        ],
+        "title": "Attribute",
+        "type": "object"
+      },
+      "Confirm": {
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "$ref": "#/$defs/Role",
+            "default": "goal"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Note"
+          },
+          "kind": {
+            "const": "confirm",
+            "default": "confirm",
+            "title": "Kind",
+            "type": "string"
+          },
+          "prompt": {
+            "title": "Prompt",
+            "type": "string"
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "title": "Confirm",
+        "type": "object"
+      },
+      "ErrorSignature": {
+        "additionalProperties": false,
+        "properties": {
+          "error_type": {
+            "$ref": "#/$defs/ErrorType"
+          },
+          "when": {
+            "items": {
+              "discriminator": {
+                "mapping": {
+                  "absent": "#/$defs/Absent",
+                  "attribute": "#/$defs/Attribute",
+                  "confirm": "#/$defs/Confirm",
+                  "order_along": "#/$defs/OrderAlong",
+                  "present": "#/$defs/Present",
+                  "relation": "#/$defs/Relation"
+                },
+                "propertyName": "kind"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/Present"
+                },
+                {
+                  "$ref": "#/$defs/Absent"
+                },
+                {
+                  "$ref": "#/$defs/Relation"
+                },
+                {
+                  "$ref": "#/$defs/OrderAlong"
+                },
+                {
+                  "$ref": "#/$defs/Attribute"
+                },
+                {
+                  "$ref": "#/$defs/Confirm"
+                }
+              ]
+            },
+            "title": "When",
+            "type": "array"
+          },
+          "message_hint": {
+            "default": "",
+            "title": "Message Hint",
+            "type": "string"
+          }
+        },
+        "required": [
+          "error_type",
+          "when"
+        ],
+        "title": "ErrorSignature",
+        "type": "object"
+      },
+      "ErrorType": {
+        "description": "Precedence is declaration order (MISSING_OBJECT is preflight/finish only).",
+        "enum": [
+          "WRONG_ORDER",
+          "SKIPPED_STEP",
+          "REGRESSION",
+          "WRONG_POSITION",
+          "WRONG_ORIENTATION",
+          "WRONG_OBJECT",
+          "WRONG_STATE",
+          "MISSING_OBJECT",
+          "UNKNOWN_ERROR"
+        ],
+        "title": "ErrorType",
+        "type": "string"
+      },
+      "ObjectDef": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "concept": {
+            "title": "Concept",
+            "type": "string"
+          },
+          "expected_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Expected Count"
+          },
+          "slot": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Slot"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "concept"
+        ],
+        "title": "ObjectDef",
+        "type": "object"
+      },
+      "OrderAlong": {
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "$ref": "#/$defs/Role",
+            "default": "goal"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Note"
+          },
+          "kind": {
+            "const": "order_along",
+            "default": "order_along",
+            "title": "Kind",
+            "type": "string"
+          },
+          "object_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Object Ids",
+            "type": "array"
+          },
+          "axis": {
+            "enum": [
+              "x",
+              "y"
+            ],
+            "title": "Axis",
+            "type": "string"
+          }
+        },
+        "required": [
+          "object_ids",
+          "axis"
+        ],
+        "title": "OrderAlong",
+        "type": "object"
+      },
+      "Present": {
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "$ref": "#/$defs/Role",
+            "default": "goal"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Note"
+          },
+          "kind": {
+            "const": "present",
+            "default": "present",
+            "title": "Kind",
+            "type": "string"
+          },
+          "object_id": {
+            "title": "Object Id",
+            "type": "string"
+          },
+          "min_count": {
+            "default": 1,
+            "title": "Min Count",
+            "type": "integer"
+          },
+          "max_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Max Count"
+          }
+        },
+        "required": [
+          "object_id"
+        ],
+        "title": "Present",
+        "type": "object"
+      },
+      "Relation": {
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "$ref": "#/$defs/Role",
+            "default": "goal"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Note"
+          },
+          "kind": {
+            "const": "relation",
+            "default": "relation",
+            "title": "Kind",
+            "type": "string"
+          },
+          "subject_id": {
+            "title": "Subject Id",
+            "type": "string"
+          },
+          "relation": {
+            "enum": [
+              "left_of",
+              "right_of",
+              "above",
+              "below",
+              "inside",
+              "overlaps",
+              "near"
+            ],
+            "title": "Relation",
+            "type": "string"
+          },
+          "target_id": {
+            "title": "Target Id",
+            "type": "string"
+          },
+          "negate": {
+            "default": false,
+            "title": "Negate",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "subject_id",
+          "relation",
+          "target_id"
+        ],
+        "title": "Relation",
+        "type": "object"
+      },
+      "Role": {
+        "enum": [
+          "goal",
+          "invariant"
+        ],
+        "title": "Role",
+        "type": "string"
+      },
+      "Slot": {
+        "additionalProperties": false,
+        "properties": {
+          "axis": {
+            "enum": [
+              "x",
+              "y"
+            ],
+            "title": "Axis",
+            "type": "string"
+          },
+          "index": {
+            "minimum": 0,
+            "title": "Index",
+            "type": "integer"
+          },
+          "of": {
+            "minimum": 1,
+            "title": "Of",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "axis",
+          "index",
+          "of"
+        ],
+        "title": "Slot",
+        "type": "object"
+      },
+      "Step": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "instruction": {
+            "title": "Instruction",
+            "type": "string"
+          },
+          "expects": {
+            "items": {
+              "discriminator": {
+                "mapping": {
+                  "absent": "#/$defs/Absent",
+                  "attribute": "#/$defs/Attribute",
+                  "confirm": "#/$defs/Confirm",
+                  "order_along": "#/$defs/OrderAlong",
+                  "present": "#/$defs/Present",
+                  "relation": "#/$defs/Relation"
+                },
+                "propertyName": "kind"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/Present"
+                },
+                {
+                  "$ref": "#/$defs/Absent"
+                },
+                {
+                  "$ref": "#/$defs/Relation"
+                },
+                {
+                  "$ref": "#/$defs/OrderAlong"
+                },
+                {
+                  "$ref": "#/$defs/Attribute"
+                },
+                {
+                  "$ref": "#/$defs/Confirm"
+                }
+              ]
+            },
+            "title": "Expects",
+            "type": "array"
+          },
+          "errors": {
+            "items": {
+              "$ref": "#/$defs/ErrorSignature"
+            },
+            "title": "Errors",
+            "type": "array"
+          },
+          "depends_on": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Depends On",
+            "type": "array"
+          },
+          "persistent": {
+            "default": false,
+            "title": "Persistent",
+            "type": "boolean"
+          },
+          "hints": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "propertyNames": {
+              "$ref": "#/$defs/ErrorType"
+            },
+            "title": "Hints",
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "index",
+          "instruction",
+          "expects"
+        ],
+        "title": "Step",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "schema_version": {
+        "default": 1,
+        "title": "Schema Version",
+        "type": "integer"
+      },
+      "id": {
+        "title": "Id",
+        "type": "string"
+      },
+      "title": {
+        "title": "Title",
+        "type": "string"
+      },
+      "source": {
+        "additionalProperties": true,
+        "title": "Source",
+        "type": "object"
+      },
+      "objects": {
+        "items": {
+          "$ref": "#/$defs/ObjectDef"
+        },
+        "title": "Objects",
+        "type": "array"
+      },
+      "steps": {
+        "items": {
+          "$ref": "#/$defs/Step"
+        },
+        "title": "Steps",
+        "type": "array"
+      },
+      "compile_meta": {
+        "additionalProperties": true,
+        "title": "Compile Meta",
+        "type": "object"
+      }
+    },
+    "required": [
+      "id",
+      "title",
+      "source",
+      "objects",
+      "steps"
+    ],
+    "title": "Procedure",
+    "type": "object"
+  },
+  "Observation": {
+    "$defs": {
+      "AttributeReading": {
+        "additionalProperties": false,
+        "properties": {
+          "query_id": {
+            "title": "Query Id",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "number"
+          },
+          "evidence": {
+            "maxLength": 160,
+            "title": "Evidence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query_id",
+          "value",
+          "confidence",
+          "evidence"
+        ],
+        "title": "AttributeReading",
+        "type": "object"
+      },
+      "Box": {
+        "additionalProperties": false,
+        "properties": {
+          "x1": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "X1",
+            "type": "number"
+          },
+          "y1": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Y1",
+            "type": "number"
+          },
+          "x2": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "X2",
+            "type": "number"
+          },
+          "y2": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Y2",
+            "type": "number"
+          }
+        },
+        "required": [
+          "x1",
+          "y1",
+          "x2",
+          "y2"
+        ],
+        "title": "Box",
+        "type": "object"
+      },
+      "Detection": {
+        "additionalProperties": false,
+        "properties": {
+          "concept": {
+            "title": "Concept",
+            "type": "string"
+          },
+          "instance_id": {
+            "title": "Instance Id",
+            "type": "integer"
+          },
+          "box": {
+            "$ref": "#/$defs/Box"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Score"
+          },
+          "mask_svg": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Mask Svg"
+          }
+        },
+        "required": [
+          "concept",
+          "instance_id",
+          "box"
+        ],
+        "title": "Detection",
+        "type": "object"
+      },
+      "ModelError": {
+        "additionalProperties": false,
+        "properties": {
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "timeout",
+              "rate_limit",
+              "http",
+              "parse",
+              "budget"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          }
+        },
+        "required": [
+          "model",
+          "kind",
+          "detail"
+        ],
+        "title": "ModelError",
+        "type": "object"
+      },
+      "TickTrigger": {
+        "enum": [
+          "change",
+          "manual",
+          "heartbeat",
+          "preflight"
+        ],
+        "title": "TickTrigger",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "tick_id": {
+        "title": "Tick Id",
+        "type": "integer"
+      },
+      "t_ms": {
+        "title": "T Ms",
+        "type": "integer"
+      },
+      "frame_id": {
+        "title": "Frame Id",
+        "type": "string"
+      },
+      "trigger": {
+        "$ref": "#/$defs/TickTrigger"
+      },
+      "settled": {
+        "title": "Settled",
+        "type": "boolean"
+      },
+      "detections": {
+        "items": {
+          "$ref": "#/$defs/Detection"
+        },
+        "title": "Detections",
+        "type": "array"
+      },
+      "readings": {
+        "items": {
+          "$ref": "#/$defs/AttributeReading"
+        },
+        "title": "Readings",
+        "type": "array"
+      },
+      "latency_ms": {
+        "additionalProperties": {
+          "type": "integer"
+        },
+        "title": "Latency Ms",
+        "type": "object"
+      },
+      "n_calls": {
+        "title": "N Calls",
+        "type": "integer"
+      },
+      "errors": {
+        "items": {
+          "$ref": "#/$defs/ModelError"
+        },
+        "title": "Errors",
+        "type": "array"
+      },
+      "models": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "title": "Models",
+        "type": "object"
+      }
+    },
+    "required": [
+      "tick_id",
+      "t_ms",
+      "frame_id",
+      "trigger",
+      "settled",
+      "detections",
+      "readings",
+      "latency_ms",
+      "n_calls",
+      "models"
+    ],
+    "title": "Observation",
+    "type": "object"
+  },
+  "SessionState": {
+    "$defs": {
+      "Alert": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "t_ms": {
+            "title": "T Ms",
+            "type": "integer"
+          },
+          "step_id": {
+            "title": "Step Id",
+            "type": "string"
+          },
+          "related_step_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Related Step Id"
+          },
+          "error_type": {
+            "$ref": "#/$defs/ErrorType"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "number"
+          },
+          "evidence_frame_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Evidence Frame Ids",
+            "type": "array"
+          },
+          "evidence_tick_ids": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Evidence Tick Ids",
+            "type": "array"
+          },
+          "resolved_at_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Resolved At Ms"
+          },
+          "resolution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Resolution"
+          }
+        },
+        "required": [
+          "id",
+          "t_ms",
+          "step_id",
+          "error_type",
+          "message",
+          "confidence",
+          "evidence_frame_ids",
+          "evidence_tick_ids"
+        ],
+        "title": "Alert",
+        "type": "object"
+      },
+      "ErrorType": {
+        "description": "Precedence is declaration order (MISSING_OBJECT is preflight/finish only).",
+        "enum": [
+          "WRONG_ORDER",
+          "SKIPPED_STEP",
+          "REGRESSION",
+          "WRONG_POSITION",
+          "WRONG_ORIENTATION",
+          "WRONG_OBJECT",
+          "WRONG_STATE",
+          "MISSING_OBJECT",
+          "UNKNOWN_ERROR"
+        ],
+        "title": "ErrorType",
+        "type": "string"
+      },
+      "SessionStatus": {
+        "enum": [
+          "CREATED",
+          "PREFLIGHT",
+          "RUNNING",
+          "PAUSED",
+          "PAUSED_BUDGET",
+          "FINISHED",
+          "ERROR"
+        ],
+        "title": "SessionStatus",
+        "type": "string"
+      },
+      "StepState": {
+        "additionalProperties": false,
+        "properties": {
+          "step_id": {
+            "title": "Step Id",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/StepStatus"
+          },
+          "satisfied_early": {
+            "default": false,
+            "title": "Satisfied Early",
+            "type": "boolean"
+          },
+          "consec_true": {
+            "default": 0,
+            "title": "Consec True",
+            "type": "integer"
+          },
+          "consec_evidence": {
+            "default": 0,
+            "title": "Consec Evidence",
+            "type": "integer"
+          },
+          "unknown_since_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Unknown Since Ms"
+          },
+          "done_at_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Done At Ms"
+          },
+          "done_source": {
+            "anyOf": [
+              {
+                "enum": [
+                  "engine",
+                  "manual"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Done Source"
+          }
+        },
+        "required": [
+          "step_id",
+          "status"
+        ],
+        "title": "StepState",
+        "type": "object"
+      },
+      "StepStatus": {
+        "enum": [
+          "PENDING",
+          "ACTIVE",
+          "DONE",
+          "UNCERTAIN",
+          "PROBLEM"
+        ],
+        "title": "StepStatus",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "session_id": {
+        "title": "Session Id",
+        "type": "string"
+      },
+      "procedure_id": {
+        "title": "Procedure Id",
+        "type": "string"
+      },
+      "status": {
+        "$ref": "#/$defs/SessionStatus"
+      },
+      "steps": {
+        "items": {
+          "$ref": "#/$defs/StepState"
+        },
+        "title": "Steps",
+        "type": "array"
+      },
+      "open_alerts": {
+        "items": {
+          "$ref": "#/$defs/Alert"
+        },
+        "title": "Open Alerts",
+        "type": "array"
+      },
+      "seq": {
+        "default": 0,
+        "title": "Seq",
+        "type": "integer"
+      },
+      "tick_id": {
+        "default": 0,
+        "title": "Tick Id",
+        "type": "integer"
+      },
+      "n_calls": {
+        "default": 0,
+        "title": "N Calls",
+        "type": "integer"
+      },
+      "cooldowns": {
+        "additionalProperties": {
+          "type": "integer"
+        },
+        "title": "Cooldowns",
+        "type": "object"
+      },
+      "counters": {
+        "additionalProperties": {
+          "type": "integer"
+        },
+        "title": "Counters",
+        "type": "object"
+      }
+    },
+    "required": [
+      "session_id",
+      "procedure_id",
+      "status",
+      "steps"
+    ],
+    "title": "SessionState",
+    "type": "object"
+  },
+  "Event": {
+    "oneOf": [
+      {
+        "$defs": {
+          "SessionStatus": {
+            "enum": [
+              "CREATED",
+              "PREFLIGHT",
+              "RUNNING",
+              "PAUSED",
+              "PAUSED_BUDGET",
+              "FINISHED",
+              "ERROR"
+            ],
+            "title": "SessionStatus",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "t_ms": {
+            "title": "T Ms",
+            "type": "integer"
+          },
+          "type": {
+            "const": "session.status",
+            "default": "session.status",
+            "title": "Type",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/$defs/SessionStatus"
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Detail"
+          }
+        },
+        "required": [
+          "seq",
+          "t_ms",
+          "status"
+        ],
+        "title": "SessionStatusEvent",
+        "type": "object"
+      },
+      {
+        "$defs": {
+          "PreflightObject": {
+            "additionalProperties": false,
+            "properties": {
+              "object_id": {
+                "title": "Object Id",
+                "type": "string"
+              },
+              "concept": {
+                "title": "Concept",
+                "type": "string"
+              },
+              "found": {
+                "title": "Found",
+                "type": "integer"
+              },
+              "expected": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Expected"
+              },
+              "ok": {
+                "title": "Ok",
+                "type": "boolean"
+              },
+              "suggestion": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Suggestion"
+              }
+            },
+            "required": [
+              "object_id",
+              "concept",
+              "found",
+              "expected",
+              "ok"
+            ],
+            "title": "PreflightObject",
+            "type": "object"
+          },
+          "PreflightResult": {
+            "additionalProperties": false,
+            "properties": {
+              "objects": {
+                "items": {
+                  "$ref": "#/$defs/PreflightObject"
+                },
+                "title": "Objects",
+                "type": "array"
+              },
+              "blur_score": {
+                "title": "Blur Score",
+                "type": "number"
+              },
+              "brightness": {
+                "title": "Brightness",
+                "type": "number"
+              },
+              "quality_ok": {
+                "title": "Quality Ok",
+                "type": "boolean"
+              },
+              "goal_true_at_start": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Goal True At Start",
+                "type": "array"
+              },
+              "models_ok": {
+                "additionalProperties": {
+                  "type": "boolean"
+                },
+                "title": "Models Ok",
+                "type": "object"
+              }
+            },
+            "required": [
+              "objects",
+              "blur_score",
+              "brightness",
+              "quality_ok",
+              "goal_true_at_start",
+              "models_ok"
+            ],
+            "title": "PreflightResult",
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "t_ms": {
+            "title": "T Ms",
+            "type": "integer"
+          },
+          "type": {
+            "const": "preflight.result",
+            "default": "preflight.result",
+            "title": "Type",
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/$defs/PreflightResult"
+          }
+        },
+        "required": [
+          "seq",
+          "t_ms",
+          "result"
+        ],
+        "title": "PreflightResultEvent",
+        "type": "object"
+      },
+      {
+        "$defs": {
+          "Box": {
+            "additionalProperties": false,
+            "properties": {
+              "x1": {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "title": "X1",
+                "type": "number"
+              },
+              "y1": {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "title": "Y1",
+                "type": "number"
+              },
+              "x2": {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "title": "X2",
+                "type": "number"
+              },
+              "y2": {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "title": "Y2",
+                "type": "number"
+              }
+            },
+            "required": [
+              "x1",
+              "y1",
+              "x2",
+              "y2"
+            ],
+            "title": "Box",
+            "type": "object"
+          },
+          "OverlayBox": {
+            "additionalProperties": false,
+            "properties": {
+              "concept": {
+                "title": "Concept",
+                "type": "string"
+              },
+              "box": {
+                "$ref": "#/$defs/Box"
+              },
+              "score": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Score"
+              }
+            },
+            "required": [
+              "concept",
+              "box"
+            ],
+            "title": "OverlayBox",
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "t_ms": {
+            "title": "T Ms",
+            "type": "integer"
+          },
+          "type": {
+            "const": "observation.summary",
+            "default": "observation.summary",
+            "title": "Type",
+            "type": "string"
+          },
+          "tick_id": {
+            "title": "Tick Id",
+            "type": "integer"
+          },
+          "trigger": {
+            "title": "Trigger",
+            "type": "string"
+          },
+          "settled": {
+            "title": "Settled",
+            "type": "boolean"
+          },
+          "n_detections": {
+            "title": "N Detections",
+            "type": "integer"
+          },
+          "latency_ms": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Latency Ms",
+            "type": "object"
+          },
+          "degraded": {
+            "title": "Degraded",
+            "type": "boolean"
+          },
+          "overlay": {
+            "items": {
+              "$ref": "#/$defs/OverlayBox"
+            },
+            "title": "Overlay",
+            "type": "array"
+          }
+        },
+        "required": [
+          "seq",
+          "t_ms",
+          "tick_id",
+          "trigger",
+          "settled",
+          "n_detections",
+          "latency_ms",
+          "degraded"
+        ],
+        "title": "ObservationSummaryEvent",
+        "type": "object"
+      },
+      {
+        "$defs": {
+          "PredicateResult": {
+            "additionalProperties": false,
+            "properties": {
+              "step_id": {
+                "title": "Step Id",
+                "type": "string"
+              },
+              "index": {
+                "title": "Index",
+                "type": "integer"
+              },
+              "status": {
+                "$ref": "#/$defs/PredicateStatus"
+              },
+              "confidence": {
+                "title": "Confidence",
+                "type": "number"
+              },
+              "reason": {
+                "title": "Reason",
+                "type": "string"
+              },
+              "benign": {
+                "default": false,
+                "title": "Benign",
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "step_id",
+              "index",
+              "status",
+              "confidence",
+              "reason"
+            ],
+            "title": "PredicateResult",
+            "type": "object"
+          },
+          "PredicateStatus": {
+            "enum": [
+              "TRUE",
+              "FALSE",
+              "UNKNOWN"
+            ],
+            "title": "PredicateStatus",
+            "type": "string"
+          },
+          "StepState": {
+            "additionalProperties": false,
+            "properties": {
+              "step_id": {
+                "title": "Step Id",
+                "type": "string"
+              },
+              "status": {
+                "$ref": "#/$defs/StepStatus"
+              },
+              "satisfied_early": {
+                "default": false,
+                "title": "Satisfied Early",
+                "type": "boolean"
+              },
+              "consec_true": {
+                "default": 0,
+                "title": "Consec True",
+                "type": "integer"
+              },
+              "consec_evidence": {
+                "default": 0,
+                "title": "Consec Evidence",
+                "type": "integer"
+              },
+              "unknown_since_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Unknown Since Ms"
+              },
+              "done_at_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Done At Ms"
+              },
+              "done_source": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      "engine",
+                      "manual"
+                    ],
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Done Source"
+              }
+            },
+            "required": [
+              "step_id",
+              "status"
+            ],
+            "title": "StepState",
+            "type": "object"
+          },
+          "StepStatus": {
+            "enum": [
+              "PENDING",
+              "ACTIVE",
+              "DONE",
+              "UNCERTAIN",
+              "PROBLEM"
+            ],
+            "title": "StepStatus",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "t_ms": {
+            "title": "T Ms",
+            "type": "integer"
+          },
+          "type": {
+            "const": "step.updated",
+            "default": "step.updated",
+            "title": "Type",
+            "type": "string"
+          },
+          "step": {
+            "$ref": "#/$defs/StepState"
+          },
+          "last_results": {
+            "items": {
+              "$ref": "#/$defs/PredicateResult"
+            },
+            "title": "Last Results",
+            "type": "array"
+          }
+        },
+        "required": [
+          "seq",
+          "t_ms",
+          "step",
+          "last_results"
+        ],
+        "title": "StepUpdatedEvent",
+        "type": "object"
+      },
+      {
+        "$defs": {
+          "Alert": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "t_ms": {
+                "title": "T Ms",
+                "type": "integer"
+              },
+              "step_id": {
+                "title": "Step Id",
+                "type": "string"
+              },
+              "related_step_id": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Related Step Id"
+              },
+              "error_type": {
+                "$ref": "#/$defs/ErrorType"
+              },
+              "message": {
+                "title": "Message",
+                "type": "string"
+              },
+              "confidence": {
+                "title": "Confidence",
+                "type": "number"
+              },
+              "evidence_frame_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Evidence Frame Ids",
+                "type": "array"
+              },
+              "evidence_tick_ids": {
+                "items": {
+                  "type": "integer"
+                },
+                "title": "Evidence Tick Ids",
+                "type": "array"
+              },
+              "resolved_at_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Resolved At Ms"
+              },
+              "resolution": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Resolution"
+              }
+            },
+            "required": [
+              "id",
+              "t_ms",
+              "step_id",
+              "error_type",
+              "message",
+              "confidence",
+              "evidence_frame_ids",
+              "evidence_tick_ids"
+            ],
+            "title": "Alert",
+            "type": "object"
+          },
+          "ErrorType": {
+            "description": "Precedence is declaration order (MISSING_OBJECT is preflight/finish only).",
+            "enum": [
+              "WRONG_ORDER",
+              "SKIPPED_STEP",
+              "REGRESSION",
+              "WRONG_POSITION",
+              "WRONG_ORIENTATION",
+              "WRONG_OBJECT",
+              "WRONG_STATE",
+              "MISSING_OBJECT",
+              "UNKNOWN_ERROR"
+            ],
+            "title": "ErrorType",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "t_ms": {
+            "title": "T Ms",
+            "type": "integer"
+          },
+          "type": {
+            "const": "alert.raised",
+            "default": "alert.raised",
+            "title": "Type",
+            "type": "string"
+          },
+          "alert": {
+            "$ref": "#/$defs/Alert"
+          }
+        },
+        "required": [
+          "seq",
+          "t_ms",
+          "alert"
+        ],
+        "title": "AlertRaisedEvent",
+        "type": "object"
+      },
+      {
+        "$defs": {
+          "Alert": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "t_ms": {
+                "title": "T Ms",
+                "type": "integer"
+              },
+              "step_id": {
+                "title": "Step Id",
+                "type": "string"
+              },
+              "related_step_id": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Related Step Id"
+              },
+              "error_type": {
+                "$ref": "#/$defs/ErrorType"
+              },
+              "message": {
+                "title": "Message",
+                "type": "string"
+              },
+              "confidence": {
+                "title": "Confidence",
+                "type": "number"
+              },
+              "evidence_frame_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Evidence Frame Ids",
+                "type": "array"
+              },
+              "evidence_tick_ids": {
+                "items": {
+                  "type": "integer"
+                },
+                "title": "Evidence Tick Ids",
+                "type": "array"
+              },
+              "resolved_at_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Resolved At Ms"
+              },
+              "resolution": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Resolution"
+              }
+            },
+            "required": [
+              "id",
+              "t_ms",
+              "step_id",
+              "error_type",
+              "message",
+              "confidence",
+              "evidence_frame_ids",
+              "evidence_tick_ids"
+            ],
+            "title": "Alert",
+            "type": "object"
+          },
+          "ErrorType": {
+            "description": "Precedence is declaration order (MISSING_OBJECT is preflight/finish only).",
+            "enum": [
+              "WRONG_ORDER",
+              "SKIPPED_STEP",
+              "REGRESSION",
+              "WRONG_POSITION",
+              "WRONG_ORIENTATION",
+              "WRONG_OBJECT",
+              "WRONG_STATE",
+              "MISSING_OBJECT",
+              "UNKNOWN_ERROR"
+            ],
+            "title": "ErrorType",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "t_ms": {
+            "title": "T Ms",
+            "type": "integer"
+          },
+          "type": {
+            "const": "alert.updated",
+            "default": "alert.updated",
+            "title": "Type",
+            "type": "string"
+          },
+          "alert": {
+            "$ref": "#/$defs/Alert"
+          }
+        },
+        "required": [
+          "seq",
+          "t_ms",
+          "alert"
+        ],
+        "title": "AlertUpdatedEvent",
+        "type": "object"
+      },
+      {
+        "$defs": {
+          "Alert": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "title": "Id",
+                "type": "string"
+              },
+              "t_ms": {
+                "title": "T Ms",
+                "type": "integer"
+              },
+              "step_id": {
+                "title": "Step Id",
+                "type": "string"
+              },
+              "related_step_id": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Related Step Id"
+              },
+              "error_type": {
+                "$ref": "#/$defs/ErrorType"
+              },
+              "message": {
+                "title": "Message",
+                "type": "string"
+              },
+              "confidence": {
+                "title": "Confidence",
+                "type": "number"
+              },
+              "evidence_frame_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "title": "Evidence Frame Ids",
+                "type": "array"
+              },
+              "evidence_tick_ids": {
+                "items": {
+                  "type": "integer"
+                },
+                "title": "Evidence Tick Ids",
+                "type": "array"
+              },
+              "resolved_at_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Resolved At Ms"
+              },
+              "resolution": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "title": "Resolution"
+              }
+            },
+            "required": [
+              "id",
+              "t_ms",
+              "step_id",
+              "error_type",
+              "message",
+              "confidence",
+              "evidence_frame_ids",
+              "evidence_tick_ids"
+            ],
+            "title": "Alert",
+            "type": "object"
+          },
+          "ErrorType": {
+            "description": "Precedence is declaration order (MISSING_OBJECT is preflight/finish only).",
+            "enum": [
+              "WRONG_ORDER",
+              "SKIPPED_STEP",
+              "REGRESSION",
+              "WRONG_POSITION",
+              "WRONG_ORIENTATION",
+              "WRONG_OBJECT",
+              "WRONG_STATE",
+              "MISSING_OBJECT",
+              "UNKNOWN_ERROR"
+            ],
+            "title": "ErrorType",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "t_ms": {
+            "title": "T Ms",
+            "type": "integer"
+          },
+          "type": {
+            "const": "alert.resolved",
+            "default": "alert.resolved",
+            "title": "Type",
+            "type": "string"
+          },
+          "alert": {
+            "$ref": "#/$defs/Alert"
+          }
+        },
+        "required": [
+          "seq",
+          "t_ms",
+          "alert"
+        ],
+        "title": "AlertResolvedEvent",
+        "type": "object"
+      },
+      {
+        "additionalProperties": false,
+        "properties": {
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "t_ms": {
+            "title": "T Ms",
+            "type": "integer"
+          },
+          "type": {
+            "const": "manual.applied",
+            "default": "manual.applied",
+            "title": "Type",
+            "type": "string"
+          },
+          "step_id": {
+            "title": "Step Id",
+            "type": "string"
+          },
+          "action": {
+            "title": "Action",
+            "type": "string"
+          }
+        },
+        "required": [
+          "seq",
+          "t_ms",
+          "step_id",
+          "action"
+        ],
+        "title": "ManualAppliedEvent",
+        "type": "object"
+      },
+      {
+        "$defs": {
+          "StepStatus": {
+            "enum": [
+              "PENDING",
+              "ACTIVE",
+              "DONE",
+              "UNCERTAIN",
+              "PROBLEM"
+            ],
+            "title": "StepStatus",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "t_ms": {
+            "title": "T Ms",
+            "type": "integer"
+          },
+          "type": {
+            "const": "session.finished",
+            "default": "session.finished",
+            "title": "Type",
+            "type": "string"
+          },
+          "summary": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/StepStatus"
+                },
+                {
+                  "const": "INCOMPLETE",
+                  "type": "string"
+                }
+              ]
+            },
+            "title": "Summary",
+            "type": "object"
+          },
+          "report_urls": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Report Urls",
+            "type": "object"
+          }
+        },
+        "required": [
+          "seq",
+          "t_ms",
+          "summary"
+        ],
+        "title": "SessionFinishedEvent",
+        "type": "object"
+      },
+      {
+        "additionalProperties": false,
+        "properties": {
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "t_ms": {
+            "title": "T Ms",
+            "type": "integer"
+          },
+          "type": {
+            "const": "error",
+            "default": "error",
+            "title": "Type",
+            "type": "string"
+          },
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "fatal": {
+            "title": "Fatal",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "seq",
+          "t_ms",
+          "code",
+          "message",
+          "fatal"
+        ],
+        "title": "ErrorEvent",
+        "type": "object"
+      }
+    ]
+  }
+}

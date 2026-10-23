@@ -1,0 +1,40 @@
+:root {
+  color: #e8edf5;
+  background: #0b1020;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  line-height: 1.45;
+}
+
+body {
+  margin: 0;
+}
+
+.shell {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.eyebrow {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #8aa0c8;
+}
+
+h1 {
+  margin: 0.2rem 0;
+  font-size: 2.2rem;
+}
+
+.tagline {
+  color: #b7c4dc;
+}
+
+.ok {
+  color: #9ee7b0;
+}
+
+.warn {
+  color: #f3d27a;
+}

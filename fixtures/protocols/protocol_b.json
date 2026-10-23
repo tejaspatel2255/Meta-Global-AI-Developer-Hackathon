@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "id": "protocol_b",
+  "title": "Colour dilution in labelled rack",
+  "source": {"kind": "text", "sha256": "fixture-not-hashed"},
+  "objects": [
+    {
+      "id": "tube_a",
+      "label": "Tube A",
+      "concept": "test tube",
+      "expected_count": 5,
+      "slot": {"axis": "x", "index": 0, "of": 5}
+    },
+    {
+      "id": "tube_b",
+      "label": "Tube B",
+      "concept": "test tube",
+      "expected_count": 5,
+      "slot": {"axis": "x", "index": 1, "of": 5}
+    },
+    {
+      "id": "tube_c",
+      "label": "Tube C",
+      "concept": "test tube",
+      "expected_count": 5,
+      "slot": {"axis": "x", "index": 2, "of": 5}
+    },
+    {
+      "id": "tube_d",
+      "label": "Tube D",
+      "concept": "test tube",
+      "expected_count": 5,
+      "slot": {"axis": "x", "index": 3, "of": 5}
+    },
+    {
+      "id": "tube_e",
+      "label": "Tube E",
+      "concept": "test tube",
+      "expected_count": 5,
+      "slot": {"axis": "x", "index": 4, "of": 5}
+    }
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "index": 1,
+      "instruction": "Confirm stock tube A is red.",
+      "expects": [
+        {
+          "kind": "attribute",
+          "object_id": "tube_a",
+          "attribute": "liquid_color",
+          "question": "What colour is the liquid?",
+          "allowed": ["red"],
+          "pending": ["clear"],
+          "category": "state",
+          "role": "goal"
+        }
+      ],
+      "errors": [],
+      "depends_on": [],
+      "persistent": false
+    },
+    {
+      "id": "s2",
+      "index": 2,
+      "instruction": "Transfer stock A (red) into tube D.",
+      "expects": [
+        {
+          "kind": "attribute",
+          "object_id": "tube_d",
+          "attribute": "liquid_color",
+          "question": "What colour is the liquid?",
+          "allowed": ["red"],
+          "pending": ["clear"],
+          "category": "state",
+          "role": "goal"
+        },
+        {
+          "kind": "attribute",
+          "object_id": "tube_e",
+          "attribute": "liquid_color",
+          "question": "What colour is the liquid?",
+          "allowed": ["clear"],
+          "pending": [],
+          "category": "state",
+          "role": "invariant"
+        }
+      ],
+      "errors": [],
+      "depends_on": ["s1"],
+      "persistent": false
+    }
+  ],
+  "compile_meta": {"model": "fixture", "attempts": 0, "warnings": []}
+}

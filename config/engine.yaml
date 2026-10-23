@@ -1,0 +1,15 @@
+det_score_min: 0.5
+occlusion_overlap: 0.25
+k_true: 2
+k_false_evidence: 2
+k_false_absence: 3
+vlm_conf_min: 0.6
+alarm_conf_min: 0.7
+absence_conf: 0.7
+uncertain_after_ms: 6000
+skip_reclass_ms: 20000
+alert_cooldown_ms: 15000
+attr_lookahead_steps: 2
+rel_margin: 0.01
+call_budget: 400
+tick_deadline_ms: 10000
