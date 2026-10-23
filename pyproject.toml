@@ -51,7 +51,7 @@ select = ["E", "F", "I", "UP"]
 python_version = "3.11"
 strict = true
 mypy_path = "backend"
-packages = ["benchguard.contracts", "benchguard.engine", "benchguard.compiler"]
+packages = ["benchguard.contracts", "benchguard.geometry", "benchguard.engine", "benchguard.compiler"]
 
 [tool.coverage.run]
-source = ["backend/benchguard/contracts", "backend/benchguard/engine"]
+source = ["backend/benchguard/contracts", "backend/benchguard/geometry", "backend/benchguard/engine"]
