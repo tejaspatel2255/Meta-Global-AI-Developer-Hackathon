@@ -49,10 +49,11 @@ ADR-012 track · ADR-016 pre-kickoff docs · PRD §15 open questions · **G0 out
 |---|---|---|---|---|---|
 | 2026-10-23 | P0 Scaffold & Contracts | Dev A (Prit) | `5165b9b` | pytest 8/8 pass, health 200, mypy clean | Pushed to origin/main |
 | 2026-10-23 | P1 Geometry + Engine Core | Dev A (Prit) | `feat/phase-1-geometry-engine` | 31 unit & hypothesis tests pass, 86% cov | Pure Python, 0 network, strictly deterministic |
+| 2026-10-23 | P1 Procedure Compiler | Dev A (Prit) | `feat/compiler-sop-ir` | 39 unit & hypothesis tests pass | Pure SOP compiler, Gold A/B fixtures, 3-retry loop |
 
 ## 7. Daily handoff (append; ≤ 5 lines per entry)
 _blockers · what changed · next task · anything the other dev must know_
-- 2026-10-23 (Prit): No blockers. Implemented pure `geometry/` and `engine/` with tri-state evaluator, step machine, and positive-evidence alarms A1–A5. 31 tests passing (86% cov). Feature branch ready for review & merge.
+- 2026-10-23 (Prit): Implemented pure `compiler/` (prompt, schema, retry loop feeding back lint errors). Authored Gold IR and SOP text for Protocol A and verified Protocol B. 39 tests passing across compiler, engine, geometry, contracts, and health API.
 
 ## 8. Cut ladder status (PRD §6.1) — mark when applied
 ☐ C features cut · ☐ F-25/F-21/F-22 cut · ☐ F-23 cut · ☐ F-24 cut · ☐ F-20 cut · ☐ Protocol B reduced

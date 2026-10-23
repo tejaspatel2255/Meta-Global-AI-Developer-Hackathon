@@ -1,0 +1,6 @@
+Title: Two-colour mixing in a labelled rack
+1. Transfer stock A (red) into tube D.
+2. Transfer stock B (blue) into tube D.
+3. Transfer stock C (yellow) into tube E.
+4. Transfer stock B (blue) into tube E.
+Notes: Tubes A–E stand left to right in the rack. Pause for 2 seconds after each transfer with hands out of view. Tube D should end purple and tube E green.
