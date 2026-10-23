@@ -48,10 +48,10 @@ target-version = "py311"
 select = ["E", "F", "I", "UP"]
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 strict = true
 mypy_path = "backend"
 packages = ["benchguard.contracts", "benchguard.geometry", "benchguard.engine", "benchguard.compiler"]
 
 [tool.coverage.run]
-source = ["backend/benchguard/contracts", "backend/benchguard/geometry", "backend/benchguard/engine"]
+source = ["backend/benchguard/contracts", "backend/benchguard/geometry", "backend/benchguard/engine", "backend/benchguard/compiler"]

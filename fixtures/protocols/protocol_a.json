@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "id": "protocol_a",
+  "title": "LED indicator on a breadboard",
+  "source": {
+    "kind": "text",
+    "sha256": "fixture-not-hashed"
+  },
+  "objects": [
+    {
+      "id": "breadboard",
+      "label": "Breadboard",
+      "concept": "breadboard",
+      "expected_count": 1
+    },
+    {
+      "id": "resistor",
+      "label": "Resistor",
+      "concept": "resistor",
+      "expected_count": 1
+    },
+    {
+      "id": "led",
+      "label": "Red LED",
+      "concept": "red led",
+      "expected_count": 1
+    },
+    {
+      "id": "capacitor",
+      "label": "Capacitor",
+      "concept": "capacitor",
+      "expected_count": 1
+    },
+    {
+      "id": "red_wire",
+      "label": "Red Jumper Wire",
+      "concept": "red jumper wire",
+      "expected_count": 1
+    },
+    {
+      "id": "black_wire",
+      "label": "Black Jumper Wire",
+      "concept": "black jumper wire",
+      "expected_count": 1
+    }
+  ],
+  "steps": [
+    {
+      "id": "s1",
+      "index": 1,
+      "instruction": "Insert the resistor into the breadboard.",
+      "expects": [
+        {
+          "kind": "relation",
+          "subject_id": "resistor",
+          "target_id": "breadboard",
+          "relation": "inside",
+          "role": "goal"
+        },
+        {
+          "kind": "present",
+          "object_id": "breadboard",
+          "role": "invariant"
+        }
+      ],
+      "errors": [
+        {
+          "error_type": "WRONG_OBJECT",
+          "when": [
+            {
+              "kind": "relation",
+              "subject_id": "capacitor",
+              "target_id": "breadboard",
+              "relation": "inside"
+            }
+          ],
+          "message_hint": "Inserted capacitor instead of resistor."
+        }
+      ],
+      "depends_on": [],
+      "persistent": false
+    },
+    {
+      "id": "s2",
+      "index": 2,
+      "instruction": "Insert the red LED into the breadboard.",
+      "expects": [
+        {
+          "kind": "relation",
+          "subject_id": "led",
+          "target_id": "breadboard",
+          "relation": "inside",
+          "role": "goal"
+        },
+        {
+          "kind": "present",
+          "object_id": "breadboard",
+          "role": "invariant"
+        }
+      ],
+      "errors": [],
+      "depends_on": [
+        "s1"
+      ],
+      "persistent": false
+    },
+    {
+      "id": "s3",
+      "index": 3,
+      "instruction": "Plug the red jumper wire into the breadboard on the left.",
+      "expects": [
+        {
+          "kind": "relation",
+          "subject_id": "red_wire",
+          "target_id": "breadboard",
+          "relation": "inside",
+          "role": "goal"
+        }
+      ],
+      "errors": [],
+      "depends_on": [
+        "s2"
+      ],
+      "persistent": false
+    },
+    {
+      "id": "s4",
+      "index": 4,
+      "instruction": "Plug the black jumper wire into the breadboard on the right.",
+      "expects": [
+        {
+          "kind": "relation",
+          "subject_id": "black_wire",
+          "target_id": "breadboard",
+          "relation": "inside",
+          "role": "goal"
+        },
+        {
+          "kind": "order_along",
+          "object_ids": [
+            "red_wire",
+            "black_wire"
+          ],
+          "axis": "x",
+          "role": "invariant"
+        }
+      ],
+      "errors": [],
+      "depends_on": [
+        "s3"
+      ],
+      "persistent": false
+    }
+  ],
+  "compile_meta": {
+    "model": "fixture",
+    "attempts": 0,
+    "warnings": []
+  }
+}

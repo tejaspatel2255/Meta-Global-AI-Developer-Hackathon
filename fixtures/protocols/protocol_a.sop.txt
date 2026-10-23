@@ -1,0 +1,6 @@
+Title: LED indicator on a breadboard
+1. Insert the resistor into the breadboard.
+2. Insert the red LED into the breadboard.
+3. Plug the red jumper wire into the breadboard on the left.
+4. Plug the black jumper wire into the breadboard on the right.
+Notes: Use the resistor, not the capacitor. Insert parts in the order given. Red wire must be left of black wire.
